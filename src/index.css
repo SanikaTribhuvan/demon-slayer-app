@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Root Variables */
+:root {
+  --font-title: 'Cinzel', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Font Classes */
+.font-title {
+  font-family: var(--font-title);
+  letter-spacing: 0.05em;
+}
+
+.font-title-epic {
+  font-family: var(--font-title);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.font-title-bold {
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.font-title-medium {
+  font-family: var(--font-title);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: var(--font-title);
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  font-weight: 900;
+}
+
+h2 {
+  font-weight: 700;
+}
+
+h3 {
+  font-weight: 600;
+}
+
+/* Buttons with dramatic font */
+button {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
