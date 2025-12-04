@@ -1044,35 +1044,35 @@ const MessageModal = ({ isOpen, onClose, character, message }) => {
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-600 p-8 rounded-2xl max-w-lg w-full relative shadow-2xl transform scale-100 ring-1 ring-white/10">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition bg-black/50 rounded-full p-1"
         >
           <X size={20} />
         </button>
-        
+
         <div className="text-center">
           <div className="mx-auto w-32 h-32 mb-4 rounded-full border-4 border-gray-700 overflow-hidden shadow-lg bg-gray-900 flex items-center justify-center relative">
-             {character.imageUrl ? (
-               <img src={character.imageUrl} alt={character.name} className="w-full h-full object-cover" 
-                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} 
-               />
-             ) : null}
-             <span className="text-6xl absolute" style={{display: character.imageUrl ? 'none' : 'block'}}>{character.emoji}</span>
+            {character.imageUrl ? (
+              <img src={character.imageUrl} alt={character.name} className="w-full h-full object-cover"
+                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
+              />
+            ) : null}
+            <span className="text-6xl absolute" style={{ display: character.imageUrl ? 'none' : 'block' }}>{character.emoji}</span>
           </div>
-          
+
           <h3 className="text-2xl font-title-bold font-bold mb-2 text-white">{character.name} says:</h3>
           <div className="bg-black/40 p-6 rounded-xl border border-gray-700 mt-4 relative overflow-hidden group">
             <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
             <p className="text-xl italic text-gray-200 leading-relaxed font-serif">"{message}"</p>
             {/* Fake Audio Visualizer */}
             <div className="flex justify-center gap-1 mt-4 h-4 items-end opacity-50">
-               {[...Array(10)].map((_,i) => (
-                 <div key={i} className="w-1 bg-red-400 animate-pulse" style={{ height: `${Math.random() * 100}%`, animationDuration: `${0.5 + Math.random()}s` }}></div>
-               ))}
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="w-1 bg-red-400 animate-pulse" style={{ height: `${Math.random() * 100}%`, animationDuration: `${0.5 + Math.random()}s` }}></div>
+              ))}
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="mt-8 bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white px-8 py-3 rounded-xl font-bold transition w-full shadow-lg shadow-red-900/30 border border-red-500/30 font-title-medium"
           >
@@ -1230,14 +1230,14 @@ const CharacterChatModal = ({ isOpen, onClose, character, history, onUpdateHisto
     const newHistory = [...messages, userMsg];
     setMessages(newHistory);
     if (onUpdateHistory) {
-        onUpdateHistory(character.id, newHistory);
+      onUpdateHistory(character.id, newHistory);
     }
     setInputMessage('');
     setIsTyping(true);
 
     try {
       const systemInstruction = getCharacterPrompt(character);
-      
+
       // Prepare the conversation history for the prompt
       let promptText = `${systemInstruction}\n\n`;
       messages.slice(-4).forEach(msg => {
@@ -1256,21 +1256,21 @@ const CharacterChatModal = ({ isOpen, onClose, character, history, onUpdateHisto
       });
 
       if (!response.ok) {
-          throw new Error('API request failed');
+        throw new Error('API request failed');
       }
 
       const result = await response.json();
       const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text || "...";
-      
+
       const updatedHistory = [...newHistory, { role: 'model', text: aiResponse }];
       setMessages(updatedHistory);
       if (onUpdateHistory) {
-          onUpdateHistory(character.id, updatedHistory);
+        onUpdateHistory(character.id, updatedHistory);
       }
 
     } catch (error) {
       console.error("Chat error:", error);
-      
+
       const charId = character?.id;
       let fallbackText;
 
@@ -1336,7 +1336,7 @@ const CharacterChatModal = ({ isOpen, onClose, character, history, onUpdateHisto
       const updatedHistory = [...newHistory, { role: 'model', text: fallbackText }];
       setMessages(updatedHistory);
       if (onUpdateHistory) {
-          onUpdateHistory(character.id, updatedHistory);
+        onUpdateHistory(character.id, updatedHistory);
       }
     } finally {
       setIsTyping(false);
@@ -1351,10 +1351,10 @@ const CharacterChatModal = ({ isOpen, onClose, character, history, onUpdateHisto
          Changed w-full/max-w-md/h-[600px] to w-[90vw] h-[85vh] max-w-5xl 
       */}
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-600 rounded-2xl w-[90vw] h-[85vh] max-w-5xl flex flex-col shadow-2xl relative overflow-hidden">
-         {/* Background Image Opacity */}
-         {character.imageUrl && (
-            <div className="absolute inset-0 opacity-10 z-0 pointer-events-none bg-cover bg-center" style={{backgroundImage: `url(${character.imageUrl})`}}></div>
-         )}
+        {/* Background Image Opacity */}
+        {character.imageUrl && (
+          <div className="absolute inset-0 opacity-10 z-0 pointer-events-none bg-cover bg-center" style={{ backgroundImage: `url(${character.imageUrl})` }}></div>
+        )}
 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-900/80 z-10">
@@ -1378,31 +1378,30 @@ const CharacterChatModal = ({ isOpen, onClose, character, history, onUpdateHisto
               <p className="text-sm">Start a conversation with {character.name}!</p>
             </div>
           )}
-          
+
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm ${
-                msg.role === 'user' 
-                  ? 'bg-blue-600/80 text-white rounded-br-none' 
+              <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm ${msg.role === 'user'
+                  ? 'bg-blue-600/80 text-white rounded-br-none'
                   : 'bg-gray-700/80 text-gray-100 rounded-bl-none border border-gray-600'
-              }`}>
+                }`}>
                 <p className="leading-relaxed">{msg.text}</p>
               </div>
             </div>
           ))}
-          
+
           {isTyping && (
             <div className="flex justify-start">
               <div className="bg-gray-700/50 rounded-2xl px-4 py-3 rounded-bl-none border border-gray-600">
                 <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0s'}}></span>
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></span>
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
                 </div>
               </div>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -1445,14 +1444,14 @@ const CharacterAvatar = ({ character, size = "md", shape = "circle" }) => {
   return (
     <div className={`${sizeClasses[size]} ${shapeClasses} bg-gray-800 border-2 border-gray-600 flex items-center justify-center overflow-hidden shadow-xl shrink-0 relative group`}>
       {character.imageUrl ? (
-        <img 
-          src={character.imageUrl} 
-          alt={character.name} 
+        <img
+          src={character.imageUrl}
+          alt={character.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} 
+          onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
         />
       ) : null}
-      <span className="select-none absolute" style={{display: character.imageUrl ? 'none' : 'block'}}>{character.emoji}</span>
+      <span className="select-none absolute" style={{ display: character.imageUrl ? 'none' : 'block' }}>{character.emoji}</span>
     </div>
   );
 };
@@ -1466,9 +1465,9 @@ const AudioButton = ({ text, audioUrl }) => {
       // Simulation for when no file is provided
       setPlaying(true);
       setTimeout(() => setPlaying(false), 2000);
-      return; 
+      return;
     }
-    
+
     // Logic for real audio would go here
     const audio = new Audio(audioUrl);
     setPlaying(true);
@@ -1476,13 +1475,12 @@ const AudioButton = ({ text, audioUrl }) => {
   };
 
   return (
-    <div 
+    <div
       onClick={handlePlay}
-      className={`relative p-4 rounded-xl cursor-pointer transition-all duration-300 border group ${
-        playing 
-        ? 'bg-green-900/30 border-green-500/50' 
-        : 'bg-gray-800/60 border-gray-700 hover:bg-gray-700/80 hover:border-gray-500'
-      }`}
+      className={`relative p-4 rounded-xl cursor-pointer transition-all duration-300 border group ${playing
+          ? 'bg-green-900/30 border-green-500/50'
+          : 'bg-gray-800/60 border-gray-700 hover:bg-gray-700/80 hover:border-gray-500'
+        }`}
     >
       <div className="flex justify-between items-start gap-4">
         <p className="italic text-gray-300 font-serif text-lg leading-relaxed">"{text}"</p>
@@ -1500,7 +1498,7 @@ const App = () => {
   // --- Top-Level State Hooks ---
   const [showIntro, setShowIntro] = useState(true);
   const [videoStarted, setVideoStarted] = useState(false);
-  
+
   const [currentPage, setCurrentPage] = useState('welcome');
   const [userProfile, setUserProfile] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
@@ -1534,7 +1532,7 @@ const App = () => {
   const [favorites, setFavorites] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState('dark');
-  
+
   // Background Music State
   const [bgMusicPlaying, setBgMusicPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -1549,21 +1547,21 @@ const App = () => {
   const getBackgroundStyle = () => {
     // 1. Welcome Screen
     if (currentPage === 'welcome') {
-        return {
-            backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('/backgrounds/welcome.webp')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-        };
+      return {
+        backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('/backgrounds/welcome.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
     }
 
     if (currentPage === 'messages') {
-        return {
-            backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('/backgrounds/library.webp')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-        };
+      return {
+        backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('/backgrounds/messenger.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
     }
 
     const alignment = viewingCharacter?.alignment || selectedCharacter?.alignment || 'Neutral';
@@ -1571,26 +1569,26 @@ const App = () => {
 
     // 2. Infinity Castle (Demons)
     if (alignment.includes('Demon') || alignment.includes('Upper Moon') || alignment.includes('King')) {
-       bgImage = '/backgrounds/infinity-castle.webp';
+      bgImage = '/backgrounds/infinity-castle.webp';
     }
-    
+
     // 3. Wisteria / Butterfly Mansion (Slayers)
     else if (alignment.includes('Slayer') || alignment.includes('Hashira')) {
-       bgImage = '/backgrounds/mansion.webp';
+      bgImage = '/backgrounds/mansion.webp';
     }
 
     // Page Specific overrides
     if (currentPage === 'character-select') bgImage = '/backgrounds/courtyard.webp';
     else if (currentPage === 'encyclopedia') bgImage = '/backgrounds/library.webp';
     else if (currentPage === 'games') bgImage = '/backgrounds/infinity-castle.webp';
-    else if (currentPage === 'profile') bgImage = '/backgrounds/mansion.webp'; 
+    else if (currentPage === 'profile') bgImage = '/backgrounds/mansion.webp';
     else if (currentPage === 'home') bgImage = '/backgrounds/mansion.webp';
 
     return {
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('${bgImage}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+      backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('${bgImage}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
     };
   };
 
@@ -1611,9 +1609,9 @@ const App = () => {
         setCurrentPage('welcome');
       }
     } else if (!showIntro) {
-        setCurrentPage('welcome');
+      setCurrentPage('welcome');
     }
-    
+
     // Load favorites and theme
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
@@ -1727,7 +1725,7 @@ const App = () => {
     setShowResult(false);
     setGameMode('trivia');
   };
-  
+
   const startVideo = () => {
     const video = document.getElementById('intro-video');
     if (video) {
@@ -1739,16 +1737,16 @@ const App = () => {
   const skipIntro = () => {
     setShowIntro(false);
     setVideoStarted(false); // Reset
-    
+
     // Start background music immediately after intro
     setTimeout(() => {
       if (audioRef.current) {
         audioRef.current.play()
-        .then(() => setBgMusicPlaying(true))
-        .catch(err => {
-           console.log("Audio autoplay prevented:", err);
-           setBgMusicPlaying(false);
-        });
+          .then(() => setBgMusicPlaying(true))
+          .catch(err => {
+            console.log("Audio autoplay prevented:", err);
+            setBgMusicPlaying(false);
+          });
       }
     }, 300);
 
@@ -1766,7 +1764,7 @@ const App = () => {
         setCurrentPage('welcome');
       }
     } else {
-        setCurrentPage('welcome');
+      setCurrentPage('welcome');
     }
   };
 
@@ -1780,17 +1778,17 @@ const App = () => {
           className="absolute inset-0 w-full h-full object-cover"
           onEnded={skipIntro}
           onError={(e) => {
-             console.error("Video failed to load", e);
-             skipIntro();
+            console.error("Video failed to load", e);
+            skipIntro();
           }}
           src={introVideo}
         >
           Your browser does not support video playback.
         </video>
-        
+
         {/* Tap to Start overlay - shows if video hasn't started */}
         {!videoStarted && (
-          <div 
+          <div
             onClick={startVideo}
             className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center cursor-pointer z-10 animate-pulse"
           >
@@ -1802,7 +1800,7 @@ const App = () => {
 
         {/* Skip button - only shows when video is playing */}
         {videoStarted && (
-          <button 
+          <button
             onClick={skipIntro}
             className="absolute top-8 right-8 z-20 text-white/80 hover:text-white px-6 py-2 rounded-full border border-white/30 hover:border-white/60 transition-all backdrop-blur-sm text-sm font-title-medium font-semibold shadow-lg"
           >
@@ -1828,28 +1826,28 @@ const App = () => {
   // --- Render Content ---
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat text-white transition-all duration-700" style={getBackgroundStyle()}>
-      <MessageModal 
-          isOpen={modalOpen} 
-          onClose={() => setModalOpen(false)} 
-          character={userProfile?.character || selectedCharacter || {}}
-          message={modalMessage}
+      <MessageModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        character={userProfile?.character || selectedCharacter || {}}
+        message={modalMessage}
       />
-      
-      <CharacterChatModal 
+
+      <CharacterChatModal
         isOpen={chatOpen}
         onClose={() => setChatOpen(false)}
         character={chatCharacter || selectedCharacter || userProfile?.character || {}}
         history={chatHistories[
-            (chatCharacter && chatCharacter.id) || 
-            (selectedCharacter && selectedCharacter.id) || 
-            (userProfile?.character && userProfile.character.id) || 
-            ''
+          (chatCharacter && chatCharacter.id) ||
+          (selectedCharacter && selectedCharacter.id) ||
+          (userProfile?.character && userProfile.character.id) ||
+          ''
         ] || []}
         onUpdateHistory={(charId, newHistory) => {
-            setChatHistories(prev => ({
-                ...prev,
-                [charId]: newHistory
-            }));
+          setChatHistories(prev => ({
+            ...prev,
+            [charId]: newHistory
+          }));
         }}
       />
 
@@ -1857,38 +1855,37 @@ const App = () => {
       <audio ref={audioRef} loop preload="auto">
         <source src="/audio/theme.mp3" type="audio/mpeg" />
       </audio>
-      
+
       {/* Audio button - only shows after welcome/character-select */}
       {!showIntro && currentPage !== 'welcome' && currentPage !== 'character-select' && (
         <button
-            onClick={() => {
+          onClick={() => {
             if (audioRef.current) {
-                if (bgMusicPlaying) {
+              if (bgMusicPlaying) {
                 audioRef.current.pause();
                 setBgMusicPlaying(false);
-                } else {
+              } else {
                 audioRef.current.play()
-                    .then(() => setBgMusicPlaying(true))
-                    .catch(err => {
-                        console.log("Play prevented:", err);
-                        alert("Please enable audio in your browser");
-                    });
-                }
+                  .then(() => setBgMusicPlaying(true))
+                  .catch(err => {
+                    console.log("Play prevented:", err);
+                    alert("Please enable audio in your browser");
+                  });
+              }
             }
-            }}
-            className={`fixed bottom-6 right-6 z-50 backdrop-blur-md border p-4 rounded-full transition-all shadow-xl hover:scale-110 ${
-            bgMusicPlaying
-                ? 'bg-red-600/80 border-red-400/50 shadow-red-900/50'
-                : 'bg-gray-800/80 border-gray-600/50'
+          }}
+          className={`fixed bottom-6 right-6 z-50 backdrop-blur-md border p-4 rounded-full transition-all shadow-xl hover:scale-110 ${bgMusicPlaying
+              ? 'bg-red-600/80 border-red-400/50 shadow-red-900/50'
+              : 'bg-gray-800/80 border-gray-600/50'
             }`}
-            title={bgMusicPlaying ? "Mute Music" : "Play Music"}
+          title={bgMusicPlaying ? "Mute Music" : "Play Music"}
         >
-            <div className="text-2xl">
+          <div className="text-2xl">
             {bgMusicPlaying ? '🔊' : '🔇'}
-            </div>
-            {bgMusicPlaying && (
+          </div>
+          {bgMusicPlaying && (
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-            )}
+          )}
         </button>
       )}
 
@@ -1896,13 +1893,13 @@ const App = () => {
       {/* 1. WELCOME SCREEN */}
       {currentPage === 'welcome' && (
         <div className="max-w-2xl mx-auto text-center pt-20 animate-in fade-in zoom-in duration-700">
-          <img 
-             src="/logo.webp" 
-             alt="Demon Slayer Logo" 
-             className="w-64 md:w-80 mb-8 animate-pulse mx-auto"
-             style={{
-               filter: 'drop-shadow(0 0 30px rgba(255,255,255,0.9)) drop-shadow(0 0 40px rgba(220,38,38,0.6)) brightness(1.5) contrast(1.3)'
-             }}
+          <img
+            src="/logo.webp"
+            alt="Demon Slayer Logo"
+            className="w-64 md:w-80 mb-8 animate-pulse mx-auto"
+            style={{
+              filter: 'drop-shadow(0 0 30px rgba(255,255,255,0.9)) drop-shadow(0 0 40px rgba(220,38,38,0.6)) brightness(1.5) contrast(1.3)'
+            }}
           />
           <h2 className="text-4xl mb-8 font-title-medium tracking-widest text-gray-300">CHRONICLES</h2>
           <p className="text-xl mb-12 text-gray-400 max-w-lg mx-auto leading-relaxed">
@@ -1924,12 +1921,12 @@ const App = () => {
         <div className="p-8 pb-32">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-4xl font-title-epic font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Select Your Path</h1>
-            
+
             {[
-              { title: "Demon Slayers", icon: <Sword/>, data: CHARACTERS.slayers, color: "blue" },
-              { title: "Hashira", icon: <Flame/>, data: CHARACTERS.hashira, color: "orange" },
+              { title: "Demon Slayers", icon: <Sword />, data: CHARACTERS.slayers, color: "blue" },
+              { title: "Hashira", icon: <Flame />, data: CHARACTERS.hashira, color: "orange" },
               { title: "Demons", icon: "🩸", data: CHARACTERS.demons, color: "red" },
-              { title: "Others", icon: <User/>, data: CHARACTERS.others, color: "green" }
+              { title: "Others", icon: <User />, data: CHARACTERS.others, color: "green" }
             ].map((section, idx) => (
               <div key={idx} className="mb-12">
                 <h2 className={`text-2xl font-title-bold font-bold mb-6 flex items-center gap-3 text-${section.color}-400 border-b border-${section.color}-900/50 pb-2`}>
@@ -1940,16 +1937,15 @@ const App = () => {
                     <div
                       key={char.id}
                       onClick={() => setSelectedCharacter(char)}
-                      className={`relative overflow-hidden bg-gray-800/40 backdrop-blur-md border border-gray-700 p-6 rounded-xl cursor-pointer transition-all duration-300 hover:bg-gray-700/60 hover:border-${section.color}-500/50 hover:-translate-y-1 hover:shadow-2xl ${
-                        selectedCharacter?.id === char.id ? `ring-2 ring-${section.color}-500 bg-gray-700/80 scale-[1.02]` : ''
-                      }`}
+                      className={`relative overflow-hidden bg-gray-800/40 backdrop-blur-md border border-gray-700 p-6 rounded-xl cursor-pointer transition-all duration-300 hover:bg-gray-700/60 hover:border-${section.color}-500/50 hover:-translate-y-1 hover:shadow-2xl ${selectedCharacter?.id === char.id ? `ring-2 ring-${section.color}-500 bg-gray-700/80 scale-[1.02]` : ''
+                        }`}
                     >
                       <div className="flex flex-col items-center gap-4 mb-3">
-                          <CharacterAvatar character={char} size="xl" shape="square" />
-                          <div className="text-center">
-                            <h3 className="text-xl font-title-bold font-bold">{char.name}</h3>
-                            <p className="text-xs text-gray-400 uppercase tracking-wider">{char.rank}</p>
-                          </div>
+                        <CharacterAvatar character={char} size="xl" shape="square" />
+                        <div className="text-center">
+                          <h3 className="text-xl font-title-bold font-bold">{char.name}</h3>
+                          <p className="text-xs text-gray-400 uppercase tracking-wider">{char.rank}</p>
+                        </div>
                       </div>
                       <p className="text-sm text-gray-400 line-clamp-2 text-center">{char.breathingStyle}</p>
                     </div>
@@ -1962,11 +1958,11 @@ const App = () => {
               <div className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-xl border-t border-gray-800 p-6 z-50 animate-in slide-in-from-bottom-full">
                 <div className="max-w-6xl mx-auto flex items-center justify-between">
                   <div className="flex items-center gap-6">
-                      <CharacterAvatar character={selectedCharacter} size="md" />
-                      <div>
-                        <div className="text-gray-400 text-sm">Selected Character</div>
-                        <div className="text-2xl font-title-bold font-bold text-white">{selectedCharacter.name}</div>
-                      </div>
+                    <CharacterAvatar character={selectedCharacter} size="md" />
+                    <div>
+                      <div className="text-gray-400 text-sm">Selected Character</div>
+                      <div className="text-2xl font-title-bold font-bold text-white">{selectedCharacter.name}</div>
+                    </div>
                   </div>
                   <button
                     onClick={() => setCurrentPage('profile-setup')}
@@ -1989,7 +1985,7 @@ const App = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
             <h1 className="text-4xl font-title-epic font-bold mb-8 text-center">Identity Registration</h1>
-            
+
             <div className="flex flex-col items-center mb-8">
               <CharacterAvatar character={selectedCharacter} size="xl" />
               <h2 className="text-3xl font-title-bold font-bold mt-4">{selectedCharacter.name}</h2>
@@ -2023,11 +2019,10 @@ const App = () => {
                     <div
                       key={idx}
                       onClick={() => setSelectedQuote(quote)}
-                      className={`p-4 rounded-xl cursor-pointer transition-all border ${
-                        selectedQuote === quote 
-                        ? 'bg-blue-900/30 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]' 
-                        : 'bg-gray-800/30 border-gray-700 hover:bg-gray-700/50'
-                      }`}
+                      className={`p-4 rounded-xl cursor-pointer transition-all border ${selectedQuote === quote
+                          ? 'bg-blue-900/30 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                          : 'bg-gray-800/30 border-gray-700 hover:bg-gray-700/50'
+                        }`}
                     >
                       <p className="italic text-gray-300">"{quote}"</p>
                     </div>
@@ -2066,15 +2061,15 @@ const App = () => {
         <>
           <nav className="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-white/10 p-4">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-              <img 
-                 src="/logo.webp" 
-                 alt="Demon Slayer" 
-                 onClick={() => setCurrentPage('home')}
-                 className="h-12 cursor-pointer hover:scale-105 transition-all duration-200"
-                 style={{
-                   filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.9)) drop-shadow(0 0 15px rgba(220,38,38,0.5)) brightness(1.6) contrast(1.4)'
-                 }}
-                 title="Go to Home"
+              <img
+                src="/logo.webp"
+                alt="Demon Slayer"
+                onClick={() => setCurrentPage('home')}
+                className="h-12 cursor-pointer hover:scale-105 transition-all duration-200"
+                style={{
+                  filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.9)) drop-shadow(0 0 15px rgba(220,38,38,0.5)) brightness(1.6) contrast(1.4)'
+                }}
+                title="Go to Home"
               />
               <div className="flex gap-2 p-1 bg-white/5 rounded-full overflow-x-auto">
                 {[
@@ -2087,38 +2082,37 @@ const App = () => {
                   <button
                     key={item.id}
                     onClick={() => setCurrentPage(item.id)}
-                    className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-title-medium font-bold transition-all ${
-                      currentPage === item.id 
-                      ? 'bg-white text-black shadow-lg' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/10'
-                    }`}
+                    className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-title-medium font-bold transition-all ${currentPage === item.id
+                        ? 'bg-white text-black shadow-lg'
+                        : 'text-gray-400 hover:text-white hover:bg-white/10'
+                      }`}
                   >
                     {item.icon} {item.label}
                   </button>
                 ))}
-                 <button
-                    onClick={() => {
-                      const newTheme = theme === 'dark' ? 'light' : 'dark';
-                      setTheme(newTheme);
-                      localStorage.setItem('theme', newTheme);
-                    }}
-                    className="p-2 rounded-lg hover:bg-white/10 transition"
-                  >
-                    {theme === 'dark' ? '☀️' : '🌙'}
-                 </button>
+                <button
+                  onClick={() => {
+                    const newTheme = theme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    localStorage.setItem('theme', newTheme);
+                  }}
+                  className="p-2 rounded-lg hover:bg-white/10 transition"
+                >
+                  {theme === 'dark' ? '☀️' : '🌙'}
+                </button>
               </div>
             </div>
           </nav>
 
           <div className="max-w-6xl mx-auto p-4 md:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            
+
             {/* HOME PAGE */}
             {currentPage === 'home' && (
               <>
                 <div className="relative bg-gradient-to-r from-gray-900 to-black border border-gray-700 p-8 rounded-3xl mb-8 overflow-hidden group">
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                   <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
-                  
+
                   <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
                     <CharacterAvatar character={userProfile.character} size="xl" />
                     <div className="flex-1 text-center md:text-left">
@@ -2132,12 +2126,12 @@ const App = () => {
                         <p className="italic text-gray-200">"{userProfile.bio}"</p>
                       </div>
                     </div>
-                    
+
                     <div className="bg-black/40 backdrop-blur border border-white/10 p-6 rounded-2xl min-w-[200px] text-center">
                       <div className="text-xs uppercase text-gray-500 tracking-widest mb-1">Rank</div>
                       <div className="text-3xl font-bold text-yellow-400 mb-3">{getRank(userProfile.character.alignment, xp)}</div>
                       <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden mb-2">
-                          <div className="bg-yellow-400 h-full transition-all duration-1000" style={{width: `${Math.min((xp % 500) / 5, 100)}%`}}></div>
+                        <div className="bg-yellow-400 h-full transition-all duration-1000" style={{ width: `${Math.min((xp % 500) / 5, 100)}%` }}></div>
                       </div>
                       <div className="text-sm text-gray-400">{xp} XP</div>
                     </div>
@@ -2145,34 +2139,34 @@ const App = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   {/* Actions */}
-                   <div 
-                      onClick={() => setCurrentPage('encyclopedia')}
-                      className="bg-gray-800/40 border border-gray-700 p-6 rounded-2xl hover:bg-gray-700/50 transition cursor-pointer group"
-                   >
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg group-hover:scale-110 transition-transform">
-                          <Book size={24} />
-                        </div>
-                        <span className="text-xs text-gray-500 uppercase font-bold tracking-wider">Database</span>
+                  {/* Actions */}
+                  <div
+                    onClick={() => setCurrentPage('encyclopedia')}
+                    className="bg-gray-800/40 border border-gray-700 p-6 rounded-2xl hover:bg-gray-700/50 transition cursor-pointer group"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg group-hover:scale-110 transition-transform">
+                        <Book size={24} />
                       </div>
-                      <h3 className="text-2xl font-title-bold font-bold mb-2">Character Intel</h3>
-                      <p className="text-gray-400 text-sm">Access classified information on Slayers and Demons.</p>
-                   </div>
+                      <span className="text-xs text-gray-500 uppercase font-bold tracking-wider">Database</span>
+                    </div>
+                    <h3 className="text-2xl font-title-bold font-bold mb-2">Character Intel</h3>
+                    <p className="text-gray-400 text-sm">Access classified information on Slayers and Demons.</p>
+                  </div>
 
-                   <div 
-                      onClick={() => setCurrentPage('games')}
-                      className="bg-gray-800/40 border border-gray-700 p-6 rounded-2xl hover:bg-gray-700/50 transition cursor-pointer group"
-                   >
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-green-500/20 text-green-400 rounded-lg group-hover:scale-110 transition-transform">
-                          <Trophy size={24} />
-                        </div>
-                        <span className="text-xs text-gray-500 uppercase font-bold tracking-wider">Training</span>
+                  <div
+                    onClick={() => setCurrentPage('games')}
+                    className="bg-gray-800/40 border border-gray-700 p-6 rounded-2xl hover:bg-gray-700/50 transition cursor-pointer group"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="p-3 bg-green-500/20 text-green-400 rounded-lg group-hover:scale-110 transition-transform">
+                        <Trophy size={24} />
                       </div>
-                      <h3 className="text-2xl font-title-bold font-bold mb-2">Mini Games</h3>
-                      <p className="text-gray-400 text-sm">Hone your knowledge and earn experience points.</p>
-                   </div>
+                      <span className="text-xs text-gray-500 uppercase font-bold tracking-wider">Training</span>
+                    </div>
+                    <h3 className="text-2xl font-title-bold font-bold mb-2">Mini Games</h3>
+                    <p className="text-gray-400 text-sm">Hone your knowledge and earn experience points.</p>
+                  </div>
                 </div>
               </>
             )}
@@ -2184,99 +2178,98 @@ const App = () => {
                   <button onClick={() => setViewingCharacter(null)} className="mb-6 flex items-center gap-2 text-gray-400 hover:text-white transition">
                     ← Return to Database
                   </button>
-                  
+
                   <div className="bg-gray-900/60 backdrop-blur-xl border border-gray-700 rounded-3xl overflow-hidden shadow-2xl">
                     <div className="h-48 bg-gradient-to-r from-slate-900 to-slate-800 relative">
-                        <div className="absolute -bottom-16 left-8">
-                           <CharacterAvatar character={viewingCharacter} size="lg" />
-                        </div>
-                        <div className="absolute top-4 right-8">
-                           <button
-                             onClick={(e) => {
-                                 e.stopPropagation();
-                                 const newFavorites = favorites.includes(viewingCharacter.id)
-                                 ? favorites.filter(id => id !== viewingCharacter.id)
-                                 : [...favorites, viewingCharacter.id];
-                                 setFavorites(newFavorites);
-                                 localStorage.setItem('favorites', JSON.stringify(newFavorites));
-                             }}
-                             className="bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500 text-yellow-400 px-4 py-2 rounded-lg font-bold flex items-center gap-2 backdrop-blur-md transition"
-                            >
-                              <Star size={16} className={favorites.includes(viewingCharacter.id) ? 'fill-yellow-400' : ''} />
-                              {favorites.includes(viewingCharacter.id) ? 'Favorited' : 'Favorite'}
-                           </button>
-                            <button
-                               onClick={(e) => {
-                                 e.stopPropagation();
-                                 setChatCharacter(viewingCharacter);
-                                 setChatOpen(true);
-                               }}
-                               className="bg-green-500/20 hover:bg-green-500/30 border border-green-500 text-green-400 px-4 py-2 rounded-lg font-bold flex items-center gap-2 backdrop-blur-md transition ml-4"
-                             >
-                               <MessageCircle size={16} />
-                               Chat
-                             </button>
-                        </div>
-                     </div>
-                    
+                      <div className="absolute -bottom-16 left-8">
+                        <CharacterAvatar character={viewingCharacter} size="lg" />
+                      </div>
+                      <div className="absolute top-4 right-8">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const newFavorites = favorites.includes(viewingCharacter.id)
+                              ? favorites.filter(id => id !== viewingCharacter.id)
+                              : [...favorites, viewingCharacter.id];
+                            setFavorites(newFavorites);
+                            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+                          }}
+                          className="bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500 text-yellow-400 px-4 py-2 rounded-lg font-bold flex items-center gap-2 backdrop-blur-md transition"
+                        >
+                          <Star size={16} className={favorites.includes(viewingCharacter.id) ? 'fill-yellow-400' : ''} />
+                          {favorites.includes(viewingCharacter.id) ? 'Favorited' : 'Favorite'}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setChatCharacter(viewingCharacter);
+                            setChatOpen(true);
+                          }}
+                          className="bg-green-500/20 hover:bg-green-500/30 border border-green-500 text-green-400 px-4 py-2 rounded-lg font-bold flex items-center gap-2 backdrop-blur-md transition ml-4"
+                        >
+                          <MessageCircle size={16} />
+                          Chat
+                        </button>
+                      </div>
+                    </div>
+
                     <div className="pt-20 px-8 pb-8">
-                       <div className="flex justify-between items-start mb-6">
-                          <div>
-                            <h2 className="text-4xl font-title-bold font-bold">{viewingCharacter.name}</h2>
-                            <p className="text-xl text-blue-400">{viewingCharacter.rank}</p>
-                          </div>
-                          <div className="bg-gray-800 px-4 py-2 rounded-lg border border-gray-700">
-                            {viewingCharacter.alignment}
-                          </div>
-                       </div>
+                      <div className="flex justify-between items-start mb-6">
+                        <div>
+                          <h2 className="text-4xl font-title-bold font-bold">{viewingCharacter.name}</h2>
+                          <p className="text-xl text-blue-400">{viewingCharacter.rank}</p>
+                        </div>
+                        <div className="bg-gray-800 px-4 py-2 rounded-lg border border-gray-700">
+                          {viewingCharacter.alignment}
+                        </div>
+                      </div>
 
-                       <div className="flex gap-4 border-b border-gray-700 mb-6">
-                          {['overview', 'backstory', 'abilities', 'personality'].map(tab => (
-                            <button
-                              key={tab}
-                              onClick={() => setCharacterTab(tab)}
-                              className={`pb-4 px-2 font-bold capitalize transition-colors relative ${
-                                characterTab === tab ? 'text-white' : 'text-gray-500 hover:text-gray-300'
+                      <div className="flex gap-4 border-b border-gray-700 mb-6">
+                        {['overview', 'backstory', 'abilities', 'personality'].map(tab => (
+                          <button
+                            key={tab}
+                            onClick={() => setCharacterTab(tab)}
+                            className={`pb-4 px-2 font-bold capitalize transition-colors relative ${characterTab === tab ? 'text-white' : 'text-gray-500 hover:text-gray-300'
                               }`}
-                            >
-                              {tab}
-                              {characterTab === tab && <div className="absolute bottom-0 left-0 w-full h-1 bg-red-500 rounded-t-full"></div>}
-                            </button>
-                          ))}
-                       </div>
+                          >
+                            {tab}
+                            {characterTab === tab && <div className="absolute bottom-0 left-0 w-full h-1 bg-red-500 rounded-t-full"></div>}
+                          </button>
+                        ))}
+                      </div>
 
-                       <div className="min-h-[200px] text-gray-300 leading-relaxed text-lg">
-                          {characterTab === 'overview' && (
-                            <div className="space-y-6">
-                              <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-black/20 p-4 rounded-xl">
-                                  <div className="text-xs text-gray-500 uppercase">Breathing Style</div>
-                                  <div className="font-bold text-white">{viewingCharacter.breathingStyle}</div>
-                                </div>
-                                <div className="bg-black/20 p-4 rounded-xl">
-                                  <div className="text-xs text-gray-500 uppercase">Age</div>
-                                  <div className="font-bold text-white">{viewingCharacter.age}</div>
-                                </div>
+                      <div className="min-h-[200px] text-gray-300 leading-relaxed text-lg">
+                        {characterTab === 'overview' && (
+                          <div className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-black/20 p-4 rounded-xl">
+                                <div className="text-xs text-gray-500 uppercase">Breathing Style</div>
+                                <div className="font-bold text-white">{viewingCharacter.breathingStyle}</div>
                               </div>
-                              <div className="bg-blue-900/10 border border-blue-500/20 p-6 rounded-xl">
-                                <h4 className="text-blue-400 font-title-medium font-bold mb-2 text-sm uppercase">Voice Log</h4>
-                                <AudioButton text={viewingCharacter.quote} audioUrl={viewingCharacter.audioUrl} />
+                              <div className="bg-black/20 p-4 rounded-xl">
+                                <div className="text-xs text-gray-500 uppercase">Age</div>
+                                <div className="font-bold text-white">{viewingCharacter.age}</div>
                               </div>
                             </div>
-                          )}
-                          {characterTab === 'backstory' && <p>{viewingCharacter.backstory}</p>}
-                          {characterTab === 'abilities' && <p>{viewingCharacter.abilities}</p>}
-                          {characterTab === 'personality' && (
-                            <div>
-                              <p className="mb-6">{viewingCharacter.personality}</p>
-                              <div className="grid gap-3">
-                                {viewingCharacter.altQuotes.map((q, i) => (
-                                  <AudioButton key={i} text={q} audioUrl="" />
-                                ))}
-                              </div>
+                            <div className="bg-blue-900/10 border border-blue-500/20 p-6 rounded-xl">
+                              <h4 className="text-blue-400 font-title-medium font-bold mb-2 text-sm uppercase">Voice Log</h4>
+                              <AudioButton text={viewingCharacter.quote} audioUrl={viewingCharacter.audioUrl} />
                             </div>
-                          )}
-                       </div>
+                          </div>
+                        )}
+                        {characterTab === 'backstory' && <p>{viewingCharacter.backstory}</p>}
+                        {characterTab === 'abilities' && <p>{viewingCharacter.abilities}</p>}
+                        {characterTab === 'personality' && (
+                          <div>
+                            <p className="mb-6">{viewingCharacter.personality}</p>
+                            <div className="grid gap-3">
+                              {viewingCharacter.altQuotes.map((q, i) => (
+                                <AudioButton key={i} text={q} audioUrl="" />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2284,31 +2277,31 @@ const App = () => {
                 <>
                   <div className="mb-6">
                     <input
-                        type="text"
-                        placeholder="Search characters..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-gray-800/60 border border-gray-700 text-white px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                      type="text"
+                      placeholder="Search characters..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-gray-800/60 border border-gray-700 text-white px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {[...CHARACTERS.slayers, ...CHARACTERS.hashira, ...CHARACTERS.demons, ...CHARACTERS.others]
-                         .filter(char => char.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                         .map(char => (
-                        <div 
-                           key={char.id}
-                           onClick={() => {
-                             setViewingCharacter(char);
-                             setCharacterTab('overview');
-                           }}
-                           className="bg-gray-800/40 border border-gray-700 p-4 rounded-xl flex flex-col items-center gap-4 hover:bg-gray-700/60 cursor-pointer transition group relative"
+                    {[...CHARACTERS.slayers, ...CHARACTERS.hashira, ...CHARACTERS.demons, ...CHARACTERS.others]
+                      .filter(char => char.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map(char => (
+                        <div
+                          key={char.id}
+                          onClick={() => {
+                            setViewingCharacter(char);
+                            setCharacterTab('overview');
+                          }}
+                          className="bg-gray-800/40 border border-gray-700 p-4 rounded-xl flex flex-col items-center gap-4 hover:bg-gray-700/60 cursor-pointer transition group relative"
                         >
-                           {favorites.includes(char.id) && <div className="absolute top-2 right-2 text-yellow-400"><Star size={16} fill="currentColor" /></div>}
-                           <CharacterAvatar character={char} size="xl" shape="square" />
-                           <div className="text-center">
-                             <h3 className="font-title-bold font-bold group-hover:text-blue-400 transition">{char.name}</h3>
-                             <p className="text-xs text-gray-500 uppercase">{char.rank}</p>
-                           </div>
+                          {favorites.includes(char.id) && <div className="absolute top-2 right-2 text-yellow-400"><Star size={16} fill="currentColor" /></div>}
+                          <CharacterAvatar character={char} size="xl" shape="square" />
+                          <div className="text-center">
+                            <h3 className="font-title-bold font-bold group-hover:text-blue-400 transition">{char.name}</h3>
+                            <p className="text-xs text-gray-500 uppercase">{char.rank}</p>
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -2318,96 +2311,95 @@ const App = () => {
 
             {/* GAMES */}
             {currentPage === 'games' && (
-               gameMode ? (
-                 <div className="max-w-2xl mx-auto">
-                    {/* Simplified Game Logic Rendering for Quote Game */}
-                    {gameMode === 'guess-quote' && (
-                      <div className="bg-gray-900/80 border border-gray-700 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-                        {currentQuestion < 5 ? (
-                          <>
-                            <div className="flex justify-between items-center mb-8">
-                               <span className="bg-blue-900/50 text-blue-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Quote Identification</span>
-                               <span className="font-mono text-gray-400">{currentQuestion + 1} / 5</span>
-                            </div>
-                            
-                            <div className="mb-8 text-center">
-                              <p className="text-2xl md:text-3xl font-serif italic text-white mb-6">"{guessQuestions[currentQuestion]?.quote}"</p>
-                              <div className="w-16 h-1 bg-gray-700 mx-auto rounded-full"></div>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              {guessQuestions[currentQuestion]?.options.map((char) => (
-                                <button
-                                  key={char.id}
-                                  disabled={showResult}
-                                  onClick={() => {
-                                    setSelectedAnswer(char.id);
-                                    setShowResult(true);
-                                    if(char.id === guessQuestions[currentQuestion].correct) setScore(s => s + 1);
-                                  }}
-                                  className={`p-4 rounded-xl border flex items-center gap-3 transition-all ${
-                                    showResult 
-                                      ? char.id === guessQuestions[currentQuestion].correct 
-                                        ? 'bg-green-900/50 border-green-500' 
-                                        : char.id === selectedAnswer ? 'bg-red-900/50 border-red-500' : 'bg-gray-800/50 border-gray-700 opacity-50'
-                                      : 'bg-gray-800/40 border-gray-600 hover:bg-gray-700 hover:border-gray-400'
-                                  }`}
-                                >
-                                  <CharacterAvatar character={char} size="sm" />
-                                  <span className="font-bold text-sm text-left">{char.name}</span>
-                                </button>
-                              ))}
-                            </div>
-
-                            {showResult && (
-                              <button 
-                                onClick={() => {
-                                  setCurrentQuestion(prev => prev + 1);
-                                  setShowResult(false);
-                                  setSelectedAnswer(null);
-                                }}
-                                className="w-full mt-6 bg-white text-black py-4 rounded-xl font-bold hover:bg-gray-200 transition"
-                              >
-                                Next Intel →
-                              </button>
-                            )}
-                          </>
-                        ) : (
-                          <div className="text-center py-10">
-                            <div className="text-6xl mb-4">🏆</div>
-                            <h2 className="text-3xl font-bold mb-2">Training Complete</h2>
-                            <p className="text-gray-400 mb-8">Score: {score} / 5</p>
-                            <button onClick={() => { addXP(score * 10); setGameMode(null); }} className="bg-blue-600 px-8 py-3 rounded-xl font-bold">Return to Base</button>
+              gameMode ? (
+                <div className="max-w-2xl mx-auto">
+                  {/* Simplified Game Logic Rendering for Quote Game */}
+                  {gameMode === 'guess-quote' && (
+                    <div className="bg-gray-900/80 border border-gray-700 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                      {currentQuestion < 5 ? (
+                        <>
+                          <div className="flex justify-between items-center mb-8">
+                            <span className="bg-blue-900/50 text-blue-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Quote Identification</span>
+                            <span className="font-mono text-gray-400">{currentQuestion + 1} / 5</span>
                           </div>
-                        )}
-                      </div>
-                    )}
 
-                    {/* Trivia UI would follow similar pattern... keeping concise for length */}
-                    {gameMode === 'trivia' && (
-                        <div className="bg-gray-900/80 border border-gray-700 p-8 rounded-3xl text-center">
-                           <h2 className="text-2xl font-title-epic font-bold mb-6">Trivia Mode Active</h2>
-                           {/* Reusing existing logic but wrapped in new UI */}
-                           <p className="mb-4 text-gray-400">Question {currentQuestion + 1}</p>
-                           {/* ... Trivia Render Logic similar to above ... */}
-                           <button onClick={() => setGameMode(null)} className="text-red-400 underline">Exit (WIP)</button>
+                          <div className="mb-8 text-center">
+                            <p className="text-2xl md:text-3xl font-serif italic text-white mb-6">"{guessQuestions[currentQuestion]?.quote}"</p>
+                            <div className="w-16 h-1 bg-gray-700 mx-auto rounded-full"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {guessQuestions[currentQuestion]?.options.map((char) => (
+                              <button
+                                key={char.id}
+                                disabled={showResult}
+                                onClick={() => {
+                                  setSelectedAnswer(char.id);
+                                  setShowResult(true);
+                                  if (char.id === guessQuestions[currentQuestion].correct) setScore(s => s + 1);
+                                }}
+                                className={`p-4 rounded-xl border flex items-center gap-3 transition-all ${showResult
+                                    ? char.id === guessQuestions[currentQuestion].correct
+                                      ? 'bg-green-900/50 border-green-500'
+                                      : char.id === selectedAnswer ? 'bg-red-900/50 border-red-500' : 'bg-gray-800/50 border-gray-700 opacity-50'
+                                    : 'bg-gray-800/40 border-gray-600 hover:bg-gray-700 hover:border-gray-400'
+                                  }`}
+                              >
+                                <CharacterAvatar character={char} size="sm" />
+                                <span className="font-bold text-sm text-left">{char.name}</span>
+                              </button>
+                            ))}
+                          </div>
+
+                          {showResult && (
+                            <button
+                              onClick={() => {
+                                setCurrentQuestion(prev => prev + 1);
+                                setShowResult(false);
+                                setSelectedAnswer(null);
+                              }}
+                              className="w-full mt-6 bg-white text-black py-4 rounded-xl font-bold hover:bg-gray-200 transition"
+                            >
+                              Next Intel →
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <div className="text-center py-10">
+                          <div className="text-6xl mb-4">🏆</div>
+                          <h2 className="text-3xl font-bold mb-2">Training Complete</h2>
+                          <p className="text-gray-400 mb-8">Score: {score} / 5</p>
+                          <button onClick={() => { addXP(score * 10); setGameMode(null); }} className="bg-blue-600 px-8 py-3 rounded-xl font-bold">Return to Base</button>
                         </div>
-                    )}
-                 </div>
-               ) : (
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div onClick={startGuessGame} className="bg-blue-900/20 border border-blue-500/30 p-8 rounded-3xl cursor-pointer hover:bg-blue-900/40 transition group">
-                       <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">💬</div>
-                       <h3 className="text-2xl font-title-epic font-bold mb-6 text-blue-100">Audio Analysis</h3>
-                       <p className="text-blue-300/60">Identify the speaker based on their combat dialogue.</p>
+                      )}
                     </div>
-                    <div onClick={startTriviaGame} className="bg-purple-900/20 border border-purple-500/30 p-8 rounded-3xl cursor-pointer hover:bg-purple-900/40 transition group">
-                       <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🧠</div>
-                       <h3 className="text-2xl font-title-epic font-bold mb-6 text-purple-100">Tactical Knowledge</h3>
-                       <p className="text-purple-300/60">Test your memory of breathing forms and history.</p>
+                  )}
+
+                  {/* Trivia UI would follow similar pattern... keeping concise for length */}
+                  {gameMode === 'trivia' && (
+                    <div className="bg-gray-900/80 border border-gray-700 p-8 rounded-3xl text-center">
+                      <h2 className="text-2xl font-title-epic font-bold mb-6">Trivia Mode Active</h2>
+                      {/* Reusing existing logic but wrapped in new UI */}
+                      <p className="mb-4 text-gray-400">Question {currentQuestion + 1}</p>
+                      {/* ... Trivia Render Logic similar to above ... */}
+                      <button onClick={() => setGameMode(null)} className="text-red-400 underline">Exit (WIP)</button>
                     </div>
-                 </div>
-               )
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div onClick={startGuessGame} className="bg-blue-900/20 border border-blue-500/30 p-8 rounded-3xl cursor-pointer hover:bg-blue-900/40 transition group">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">💬</div>
+                    <h3 className="text-2xl font-title-epic font-bold mb-6 text-blue-100">Audio Analysis</h3>
+                    <p className="text-blue-300/60">Identify the speaker based on their combat dialogue.</p>
+                  </div>
+                  <div onClick={startTriviaGame} className="bg-purple-900/20 border border-purple-500/30 p-8 rounded-3xl cursor-pointer hover:bg-purple-900/40 transition group">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🧠</div>
+                    <h3 className="text-2xl font-title-epic font-bold mb-6 text-purple-100">Tactical Knowledge</h3>
+                    <p className="text-purple-300/60">Test your memory of breathing forms and history.</p>
+                  </div>
+                </div>
+              )
             )}
 
             {/* MESSAGES */}
@@ -2417,145 +2409,145 @@ const App = () => {
                  Grid items now set to h-full to stretch.
               */
               <div className="w-full h-[calc(100vh-5rem)] flex flex-col">
-                  <div className="text-center mb-4 shrink-0">
-                    <h2 className="text-4xl font-title-epic font-bold mb-2">Messenger Crow</h2>
-                    <p className="text-gray-400">Choose a character and continue your chats.</p>
-                  </div>
+                <div className="text-center mb-4 shrink-0">
+                  <h2 className="text-4xl font-title-epic font-bold mb-2">Messenger Crow</h2>
+                  <p className="text-gray-400">Choose a character and continue your chats.</p>
+                </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0">
-                    {/* Left Column - Inbox */}
-                    <div className="md:col-span-1 bg-gray-900/80 border border-gray-700 rounded-2xl p-4 h-full overflow-y-auto">
-                       <h3 className="text-xl font-bold mb-4 px-2">Inbox</h3>
-                       <div className="space-y-2">
-                          {[...CHARACTERS.slayers, ...CHARACTERS.hashira, ...CHARACTERS.demons, ...CHARACTERS.others].map(char => (
-                             <div 
-                                key={char.id}
-                                onClick={() => {
-                                   setChatCharacter(char);
-                                   setChatOpen(true);
-                                }}
-                                className="flex items-center gap-3 p-3 hover:bg-white/10 rounded-xl cursor-pointer transition group"
-                             >
-                                <CharacterAvatar character={char} size="sm" />
-                                <div className="flex-1 min-w-0">
-                                   <div className="font-bold text-sm truncate group-hover:text-blue-400 transition">{char.name}</div>
-                                   {chatHistories[char.id] && chatHistories[char.id].length > 0 && (
-                                      <div className="text-xs text-gray-500 truncate">
-                                         {chatHistories[char.id][chatHistories[char.id].length - 1].text}
-                                      </div>
-                                   )}
-                                </div>
-                             </div>
-                          ))}
-                       </div>
-                    </div>
-
-                    {/* Right Column - Placeholder */}
-                    <div className="md:col-span-2 bg-gray-800/50 border border-gray-700 rounded-2xl p-8 flex flex-col items-center justify-center text-center text-gray-500 h-full">
-                       <MessageCircle size={64} className="mb-4 opacity-20" />
-                       <p className="text-xl font-bold mb-2">Select a conversation</p>
-                       <p className="text-sm max-w-xs">Choose a character from the left to open a chat or continue an existing one.</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0">
+                  {/* Left Column - Inbox */}
+                  <div className="md:col-span-1 bg-gray-900/80 border border-gray-700 rounded-2xl p-4 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold mb-4 px-2">Inbox</h3>
+                    <div className="space-y-2">
+                      {[...CHARACTERS.slayers, ...CHARACTERS.hashira, ...CHARACTERS.demons, ...CHARACTERS.others].map(char => (
+                        <div
+                          key={char.id}
+                          onClick={() => {
+                            setChatCharacter(char);
+                            setChatOpen(true);
+                          }}
+                          className="flex items-center gap-3 p-3 hover:bg-white/10 rounded-xl cursor-pointer transition group"
+                        >
+                          <CharacterAvatar character={char} size="sm" />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-sm truncate group-hover:text-blue-400 transition">{char.name}</div>
+                            {chatHistories[char.id] && chatHistories[char.id].length > 0 && (
+                              <div className="text-xs text-gray-500 truncate">
+                                {chatHistories[char.id][chatHistories[char.id].length - 1].text}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
+
+                  {/* Right Column - Placeholder */}
+                  <div className="md:col-span-2 bg-gray-800/50 border border-gray-700 rounded-2xl p-8 flex flex-col items-center justify-center text-center text-gray-500 h-full">
+                    <MessageCircle size={64} className="mb-4 opacity-20" />
+                    <p className="text-xl font-bold mb-2">Select a conversation</p>
+                    <p className="text-sm max-w-xs">Choose a character from the left to open a chat or continue an existing one.</p>
+                  </div>
+                </div>
               </div>
             )}
 
             {/* PROFILE */}
             {currentPage === 'profile' && (
               <div className="max-w-2xl mx-auto">
-                  <div className="bg-gray-800/50 border border-gray-700 p-8 rounded-3xl mb-8 flex items-center gap-6">
-                    <CharacterAvatar character={userProfile.character} size="lg" />
-                    <div className="flex-1">
-                      <h2 className="text-3xl font-title-bold font-bold mb-2 tracking-wide">{userProfile.username}</h2>
-                      <div className="text-gray-400 mt-1 flex items-center gap-2">
-                        <span className="px-2 py-0.5 bg-gray-700 rounded text-xs uppercase font-bold">{getRank(userProfile.character.alignment, xp)}</span>
+                <div className="bg-gray-800/50 border border-gray-700 p-8 rounded-3xl mb-8 flex items-center gap-6">
+                  <CharacterAvatar character={userProfile.character} size="lg" />
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-title-bold font-bold mb-2 tracking-wide">{userProfile.username}</h2>
+                    <div className="text-gray-400 mt-1 flex items-center gap-2">
+                      <span className="px-2 py-0.5 bg-gray-700 rounded text-xs uppercase font-bold">{getRank(userProfile.character.alignment, xp)}</span>
+                    </div>
+                  </div>
+                  {/* NEW: Switch Character Button */}
+                  <button
+                    onClick={() => {
+                      if (window.confirm('⚠️ Switching characters will reset your progress. Continue?')) {
+                        localStorage.removeItem('dsProfile');
+                        setUserProfile(null);
+                        setXp(0);
+                        setAchievements([]);
+                        setCurrentPage('character-select');
+                      }
+                    }}
+                    className="bg-red-900/40 hover:bg-red-800/60 border border-red-600 text-red-200 px-4 py-2 rounded-lg font-bold text-sm transition flex items-center gap-2 font-title-medium"
+                  >
+                    <User size={16} />
+                    Switch
+                  </button>
+                </div>
+
+                <div className="bg-gray-800/50 border border-gray-700 p-6 rounded-2xl mb-8">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <Trophy className="text-yellow-400" size={20} />
+                    Your Stats
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-yellow-400">{xp}</div>
+                      <div className="text-xs text-gray-500 uppercase">Total XP</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-blue-400">{achievements.length}</div>
+                      <div className="text-xs text-gray-500 uppercase">Achievements</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-green-400">
+                        {Math.floor((Date.now() - new Date(userProfile.createdAt).getTime()) / (1000 * 60 * 60 * 24))}
                       </div>
-                    </div>
-                    {/* NEW: Switch Character Button */}
-                    <button
-                        onClick={() => {
-                        if (window.confirm('⚠️ Switching characters will reset your progress. Continue?')) {
-                            localStorage.removeItem('dsProfile');
-                            setUserProfile(null);
-                            setXp(0);
-                            setAchievements([]);
-                            setCurrentPage('character-select');
-                        }
-                        }}
-                        className="bg-red-900/40 hover:bg-red-800/60 border border-red-600 text-red-200 px-4 py-2 rounded-lg font-bold text-sm transition flex items-center gap-2 font-title-medium"
-                    >
-                        <User size={16} />
-                        Switch
-                    </button>
-                  </div>
-
-                  <div className="bg-gray-800/50 border border-gray-700 p-6 rounded-2xl mb-8">
-                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                        <Trophy className="text-yellow-400" size={20} />
-                        Your Stats
-                    </h3>
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-400">{xp}</div>
-                        <div className="text-xs text-gray-500 uppercase">Total XP</div>
-                        </div>
-                        <div className="text-center">
-                        <div className="text-3xl font-bold text-blue-400">{achievements.length}</div>
-                        <div className="text-xs text-gray-500 uppercase">Achievements</div>
-                        </div>
-                        <div className="text-center">
-                        <div className="text-3xl font-bold text-green-400">
-                            {Math.floor((Date.now() - new Date(userProfile.createdAt).getTime()) / (1000 * 60 * 60 * 24))}
-                        </div>
-                        <div className="text-xs text-gray-500 uppercase">Days Active</div>
-                        </div>
+                      <div className="text-xs text-gray-500 uppercase">Days Active</div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="bg-gray-800/50 border border-gray-700 p-6 rounded-2xl mb-8">
-                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                        <Star className="text-yellow-400" size={20} />
-                        Achievements
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4">
-                        {achievements.length > 0 ? (
-                        achievements.map(id => (
-                            <div key={id} className="bg-gray-900/50 border border-gray-700 p-4 rounded-xl flex items-center gap-3">
-                            <div className="bg-yellow-500/20 text-yellow-400 p-2 rounded-lg"><Star size={20} /></div>
-                            <span className="font-bold text-sm text-gray-300 capitalize font-title-medium">{id.replace(/-/g, ' ')}</span>
-                            </div>
-                        ))
-                        ) : (
-                        <div className="col-span-2 text-center text-gray-500 py-8">
-                            No achievements yet. Complete games to earn them!
-                        </div>
-                        )}
-                    </div>
-                  </div>
-
+                <div className="bg-gray-800/50 border border-gray-700 p-6 rounded-2xl mb-8">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <Star className="text-yellow-400" size={20} />
+                    Achievements
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
-                     <button 
-                        onClick={() => {
-                        const randomQuote = userProfile.character.altQuotes[Math.floor(Math.random() * userProfile.character.altQuotes.length)];
-                        setModalMessage(randomQuote);
-                        setModalOpen(true);
-                        }}
-                        className="bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 border border-gray-600 p-4 rounded-xl font-bold flex items-center justify-center gap-3 transition"
-                    >
-                        <Sparkles className="text-yellow-400" />
-                        Random Quote
-                    </button>
-                    
-                    <button 
-                        onClick={() => {
-                        setChatCharacter(userProfile.character);
-                        setChatOpen(true);
-                        }}
-                        className="bg-gradient-to-r from-green-800 to-green-600 hover:from-green-700 hover:to-green-500 border border-green-600 p-4 rounded-xl font-bold flex items-center justify-center gap-3 transition"
-                    >
-                        <MessageCircle className="text-white" />
-                        Chat with {userProfile.character.name}
-                    </button>
+                    {achievements.length > 0 ? (
+                      achievements.map(id => (
+                        <div key={id} className="bg-gray-900/50 border border-gray-700 p-4 rounded-xl flex items-center gap-3">
+                          <div className="bg-yellow-500/20 text-yellow-400 p-2 rounded-lg"><Star size={20} /></div>
+                          <span className="font-bold text-sm text-gray-300 capitalize font-title-medium">{id.replace(/-/g, ' ')}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="col-span-2 text-center text-gray-500 py-8">
+                        No achievements yet. Complete games to earn them!
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={() => {
+                      const randomQuote = userProfile.character.altQuotes[Math.floor(Math.random() * userProfile.character.altQuotes.length)];
+                      setModalMessage(randomQuote);
+                      setModalOpen(true);
+                    }}
+                    className="bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 border border-gray-600 p-4 rounded-xl font-bold flex items-center justify-center gap-3 transition"
+                  >
+                    <Sparkles className="text-yellow-400" />
+                    Random Quote
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setChatCharacter(userProfile.character);
+                      setChatOpen(true);
+                    }}
+                    className="bg-gradient-to-r from-green-800 to-green-600 hover:from-green-700 hover:to-green-500 border border-green-600 p-4 rounded-xl font-bold flex items-center justify-center gap-3 transition"
+                  >
+                    <MessageCircle className="text-white" />
+                    Chat with {userProfile.character.name}
+                  </button>
                 </div>
               </div>
             )}
