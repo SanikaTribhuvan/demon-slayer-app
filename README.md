@@ -1,16 +1,112 @@
-# React + Vite
+⚔️ Demon Slayer: Chronicles
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+"Set your heart ablaze!" ❤️‍🔥
 
-Currently, two official plugins are available:
+An immersive, interactive fan companion app dedicated to the world of Kimetsu no Yaiba (Demon Slayer). Built with modern web technologies, this app gamifies the experience of exploring the Demon Slayer universe with a cinematic UI, audio interactions, and mini-games.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 Live Demo
 
-## React Compiler
+👉 Click here to view the live site
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✨ Key Features
 
-## Expanding the ESLint configuration
+🎥 Cinematic Experience
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Dynamic Intro System: Features a "BGMI-style" video intro with a "Tap to Start" mechanic and smooth loading animations.
+
+Immersive Audio: Includes background theme music loop and character voice lines on interaction.
+
+Visuals: Dynamic background switching based on the active screen (Infinity Castle, Wisteria Mansion, Courtyard, etc.) using a modern Glassmorphism UI.
+
+📚 Character Encyclopedia
+
+Detailed profiles for Demon Slayers, Hashira, Demons, and Supporting Characters.
+
+High-quality artwork and official stats.
+
+Voice log integration for character quotes.
+
+👤 Gamified Profile System
+
+Identity: Users select a character identity upon first login.
+
+Progression: Earn XP by browsing the encyclopedia and playing games.
+
+Ranking: Level up your rank from Mizunoe all the way to Hashira (or Demon King).
+
+Achievements: Unlock badges for milestones and daily streaks.
+
+🎮 Interactive Training
+
+Audio Analysis: Guess the character based on their dialogue.
+
+Tactical Knowledge: Test your lore knowledge with trivia challenges.
+
+🛠️ Tech Stack
+
+Frontend: React.js (v18)
+
+Build Tool: Vite
+
+Styling: Tailwind CSS (Custom animations, filters, and responsive design)
+
+Icons: Lucide React
+
+State Management: React Hooks (useState, useEffect, useRef)
+
+Storage: LocalStorage for saving user progress and XP
+
+🚀 Running Locally
+
+To run this project on your local machine, follow these steps:
+
+Clone the repository
+
+git clone [https://github.com/SanikaTribhuvan/demon-slayer-app.git](https://github.com/SanikaTribhuvan/demon-slayer-app.git)
+cd demon-slayer-app
+
+
+Install Dependencies
+
+npm install
+
+
+Run the Development Server
+
+npm run dev
+
+
+Open in Browser
+Visit http://localhost:5173 to view the app.
+
+📂 Project Structure
+
+The project relies on specific assets in the public folder to function correctly:
+
+demon-slayer-app/
+├── public/
+│   ├── audio/           # Theme music files
+│   ├── backgrounds/     # High-res wallpapers (Welcome.jpg, etc.)
+│   ├── images/          # Character portraits (TANJIRO.jpg, etc.)
+│   ├── videos/          # Intro video clips (intro1.mp4, etc.)
+│   └── logo.png         # Official Logo
+├── src/
+│   ├── App.jsx          # Main Application Logic
+│   ├── index.css        # Tailwind imports & Custom Fonts (Cinzel)
+│   └── main.jsx         # Entry point
+└── tailwind.config.js   # Tailwind configuration
+
+
+🎨 Credits & Disclaimer
+
+Artwork & Assets: All character images and background art are property of Ufotable, Shueisha, and Koyoharu Gotouge.
+
+Usage: This is a fan-made project created for educational purposes to demonstrate React and Tailwind CSS capabilities. No copyright infringement intended.
+
+👤 Author
+
+Sanika Tribhuvan
+
+GitHub Profile
+
+If you enjoyed this project, please consider giving it a ⭐ on GitHub!
